@@ -7,6 +7,10 @@
 # 5. Push your local project to your GitHub Repository
 
 name: IceCreamRatings
+env:
+    OUTPUT_PATH: ${{ github.workspace }}/.output
+    DOTNET_VERSION: "3.1"
+    FUNC_APP_NAME: "pelithne-sl"
 
 on:
   push:
@@ -28,20 +32,31 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1'
+        dotnet-version:  ${{ env.DOTNET_VERSION }}
 
-    - name: 'Run dotnet build'
-      shell: bash
-      run: |
-        # If your function app project is not located in your repository's root
-        # Please consider using pushd to change your path...
-        pushd .
-        dotnet build --configuration Release --output ./output
-        popd
+    - name: Publish functions
+      run: dotnet publish --configuration Release --output ${{ env.OUTPUT_PATH }}
+
+#    - name: 'Run dotnet build'
+#      shell: bash
+#      run: |
+#        # If your function app project is not located in your repository's root
+#        # Please consider using pushd to change your path...
+#        pushd .
+#        dotnet build --configuration Release --output ./output
+#        popd
+
+    - name: Package functions
+      uses: actions/upload-artifact@v1
+      with:
+        name: functions
+        path: ${{ env.OUTPUT_PATH }}
+
+    
         
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
       with:
-        app-name: pelithne-sl
-        package: ./output
+        app-name: ${{ env.FUNC_APP_NAME }}
+        package: ${{ env.OUTPUT_PATH }}
