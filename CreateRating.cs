@@ -20,7 +20,7 @@ namespace SOH19DryRunFunctionApp
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             [CosmosDB(databaseName: "ratingdb",collectionName: "ratings",
-                        ConnectionStringSetting = @"RatingsDatabase")] IAsyncCollector<RatingModel> icecreamRatingOut,
+                        ConnectionStringSetting = "CosmosDBConnection")] IAsyncCollector<RatingModel> icecreamRatingOut,
             ILogger log)
         {
             string _userid = null;
@@ -55,7 +55,7 @@ namespace SOH19DryRunFunctionApp
                     };
 
                     await icecreamRatingOut.AddAsync(_icecreamRating);
-                    return new OkObjectResult(newRatingGuid);
+                    return new OkObjectResult(_icecreamRating);
                 }
             }
 
