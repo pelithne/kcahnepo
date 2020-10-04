@@ -13,7 +13,7 @@ namespace SOH19DryRunFunctionApp
         [FunctionName(nameof(GetRatings))]
         public static IActionResult GetRatings(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
-            [CosmosDB(databaseName:@"%RatingsDbName%", collectionName:@"%RatingsCollectionName%", ConnectionStringSetting = @"RatingsDatabase")] IEnumerable<JObject> allRatings)
+            [CosmosDB(databaseName:"database", collectionName:"ratings", ConnectionStringSetting = "COSMOSSTRING")] IEnumerable<JObject> allRatings)
         {
             string userId = null;
 
