@@ -13,7 +13,7 @@ namespace SOH19DryRunFunctionApp
         [FunctionName("GetRating")]
         public static IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ratings/{id}")] HttpRequest req,
-            [CosmosDB(databaseName: "ratingdb", collectionName: "ratings", ConnectionStringSetting = "COSMOSSTRING", SqlQuery = "Select * from ratings r where r.id = {id}")]IEnumerable<RatingModel> rating,
+            [CosmosDB(databaseName: "database", collectionName: "ratings", ConnectionStringSetting = "COSMOSSTRING", SqlQuery = "Select * from ratings r where r.id = {id}")]IEnumerable<RatingModel> rating,
             ILogger log)
         {
             log.LogInformation("Getting Rating");
