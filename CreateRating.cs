@@ -19,7 +19,7 @@ namespace SOH19DryRunFunctionApp
         [FunctionName("CreateRating")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
-            [CosmosDB(databaseName: "database",collectionName: "ratings",
+            [CosmosDB(databaseName: "ratingdb",collectionName: "ratings",
                         ConnectionStringSetting = @"RatingsDatabase")] IAsyncCollector<RatingModel> icecreamRatingOut,
             ILogger log)
         {
